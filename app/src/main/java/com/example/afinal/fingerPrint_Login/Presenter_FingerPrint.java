@@ -5,35 +5,17 @@ import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.util.Log;
-import android.view.View;
-
-import static android.support.v4.content.ContextCompat.getSystemService;
 
 
-public class Presenter_FingerPrint {
+import java.util.Observable;
 
-    private FinalStringResult finalStringResult;
+
+public class Presenter_FingerPrint extends Observable {
+
 
     private String resultFinal;
 
-    public void getResult(){
-        if(finalStringResult!=null) {
 
-            Log.i("checkk flow: ","13");
-
-            if(resultFinal!=null) {
-                Log.i("checkk flow: ","14");
-                finalStringResult.resultFingerPrint(resultFinal);
-            }else {
-                Log.i("checkk flow: ","15");
-                finalStringResult.resultFingerPrint("fail first");
-            }
-        }
-    }
-
-    public void registerNow(){
-        finalStringResult = (FinalStringResult) mContext;
-    }
 
     private Context mContext;
 
@@ -71,7 +53,7 @@ public class Presenter_FingerPrint {
             //abort operation return
 
             Log.i("checkk flow: ","8");
-            getResult();
+          //  getResult();
 
         }
     }
@@ -113,7 +95,15 @@ public class Presenter_FingerPrint {
 
         Log.i("checkk flow: ","12");
           resultFinal=result;
+
+          setChanged();
+          notifyObservers();
     }
 
+    //getter method for observer
 
+
+    public String getFinalStringResult() {
+        return resultFinal;
+    }
 }

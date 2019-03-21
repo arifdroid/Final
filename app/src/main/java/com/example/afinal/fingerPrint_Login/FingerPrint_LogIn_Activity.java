@@ -1,5 +1,6 @@
 package com.example.afinal.fingerPrint_Login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,10 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.afinal.R;
+import com.example.afinal.fingerPrint_Login.register.Register_Activity;
 
-public class FingerPrint_LogIn_Activity extends AppCompatActivity implements FinalStringResult{
+import java.util.Observable;
+import java.util.Observer;
 
-    private TextView textViewMessage;
+public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Observer {
+
+    private TextView textViewMessage, textViewRegister;
     private Button buttonLogIn, buttonSelectAdmin;
 
     private Presenter_FingerPrint presenter;
@@ -22,8 +27,14 @@ public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Fin
         setContentView(R.layout.activity_main);
 
         textViewMessage =  findViewById(R.id.logIn_activity_textView_ID);
+        textViewRegister = findViewById(R.id.logIn_activity_textViewRegisteriD);
         buttonLogIn = findViewById(R.id.logIn_activity_button1_ID);
         buttonSelectAdmin = findViewById(R.id.logIn_activity_button2_ID);
+
+        presenter = new Presenter_FingerPrint(FingerPrint_LogIn_Activity.this);
+
+
+        presenter.addObserver(FingerPrint_LogIn_Activity.this);
 
         //when we select log in, should invoke fingerprint reader.
 
@@ -37,10 +48,24 @@ public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Fin
 
                 Log.i("checkk flow: ","1");
 
-                presenter = new Presenter_FingerPrint(FingerPrint_LogIn_Activity.this);
+
 
                 Log.i("checkk flow: ","2");
-                presenter.registerNow();
+
+
+            }
+        });
+
+        textViewRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(FingerPrint_LogIn_Activity.this, Register_Activity.class);
+                startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+
 
             }
         });
@@ -51,14 +76,27 @@ public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Fin
     }
 
     @Override
-    public void resultFingerPrint(String result) {
+    protected void onDestroy() {
+        super.onDestroy();
+
+        presenter.deleteObserver(FingerPrint_LogIn_Activity.this);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+        if(o instanceof Presenter_FingerPrint){
+
+            String s = ((Presenter_FingerPrint) o).getFinalStringResult();
+            textViewMessage.setText(s);
+
+            //then we can time stamp, insert data into firebase.
+            //fetch data from firebase, to display in 2nd main activity fragment
+            //all of this will be done in the background.
+            //here, sqlite database should have been created, our task is to check, do we need to update or not.
+
+        }
 
 
-        //this is weird implementation
-
-        Log.i("checkk flow: ","3");
-        presenter.getResult();
-        Log.i("checkk flow: ","4");
-        textViewMessage.setText(result);
     }
 }
