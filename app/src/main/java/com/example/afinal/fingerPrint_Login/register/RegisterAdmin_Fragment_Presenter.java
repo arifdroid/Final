@@ -1,20 +1,43 @@
 package com.example.afinal.fingerPrint_Login.register;
 
-import java.util.Observable;
+import android.util.Log;
 
-public class RegisterAdmin_Fragment_Presenter extends Observable {
+import java.util.Observable;
+import java.util.Observer;
+
+public class RegisterAdmin_Fragment_Presenter extends Observable implements Observer {
 
     // https://www.youtube.com/watch?v=Asc4hU1iSTU&list=PLOzDKCBkR50Set8l8vzp4sWSumCy6Z6Nf&index=35&t=652s
 
-    private OurView ourView;
+    private  OurView ourView;
 
-    private boolean check;
+    //private String responseFinal;
+
+    private boolean returnFinal;
 
     private RegisterAdmin_Fragment_FireStoreModel modelFireStore;
 
-    public RegisterAdmin_Fragment_Presenter(OurView ourView) {
+    //singleton
 
-        this.ourView = ourView;
+    private static RegisterAdmin_Fragment_Presenter INSTANCE;
+
+    public static RegisterAdmin_Fragment_Presenter getINSTANCE(){
+        if(INSTANCE==null){
+
+
+            return INSTANCE = new RegisterAdmin_Fragment_Presenter();
+
+        }return INSTANCE;
+    }
+
+
+    public RegisterAdmin_Fragment_Presenter() {
+
+        //this.responseFinal = null;
+        this.returnFinal = false;
+
+       // this.check =false;
+       // this.ourView = ourView;
 
     }
 
@@ -30,23 +53,61 @@ public class RegisterAdmin_Fragment_Presenter extends Observable {
 
     public boolean checkAdminFromFirebase(String name,String phone){
 
+
         modelFireStore = RegisterAdmin_Fragment_FireStoreModel.getInstance(name,phone);
 
-        //check need to be an observer
-        check = modelFireStore.getFromFireStore();
+        modelFireStore.addObserver(this);
 
-        //check before changed. always checking.
-        setChanged();
-        notifyObservers();
-        if(check){
+        modelFireStore.getFromFireStore_Simulation();
+
+
+
+        //check before changed. always checking.,
+
+        //problem with this design is that, it is always
+//        setChanged();
+//        notifyObservers();
+
             //allow to log in
-            return true;
+
+
+
+        return returnFinal;
+    }
+
+//    public boolean isCheck() {
+//        //return check;
+//    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+        if(o instanceof RegisterAdmin_Fragment_FireStoreModel){
+
+            //boolean
+
+            boolean check = ((RegisterAdmin_Fragment_FireStoreModel) o).getReturnLast();
+
+            if(check==true) {
+
+                returnFinal = check; //this is should be true now
+
+                setChanged();
+                notifyObservers();
+            }else {
+
+                return;
+            }
+
         }
 
-        return false;
     }
 
-    public boolean isCheck() {
-        return check;
+    public boolean getReturnFinal(){
+
+        modelFireStore.deleteObserver(this);
+        return  returnFinal;
     }
+
+
 }

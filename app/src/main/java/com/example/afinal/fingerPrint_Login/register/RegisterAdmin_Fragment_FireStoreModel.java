@@ -1,5 +1,6 @@
 package com.example.afinal.fingerPrint_Login.register;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCanceledListener;
@@ -13,15 +14,18 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
+import java.util.Observable;
 
-public class RegisterAdmin_Fragment_FireStoreModel {
+public class RegisterAdmin_Fragment_FireStoreModel extends Observable {
 
     private String name;
     private String phone;
 
     private String nameadmincheck=null;
 
-    private RegisterAdmin_Fragment_Presenter presenter;
+    private boolean returnLast;
+
+  //  private RegisterAdmin_Fragment_Presenter presenter;
 
     private static RegisterAdmin_Fragment_FireStoreModel INSTANCE;
 
@@ -34,10 +38,10 @@ public class RegisterAdmin_Fragment_FireStoreModel {
     }
 
 
-
     public RegisterAdmin_Fragment_FireStoreModel(String name, String phone){
         this.name=name;
         this.phone=phone;
+        returnLast = false;
     }
 
     public boolean getFromFireStore(){
@@ -57,8 +61,6 @@ public class RegisterAdmin_Fragment_FireStoreModel {
 
                     if(querySnapshot.size()>1){
 
-
-
                         for(QueryDocumentSnapshot documentSnapshot:querySnapshot){
 
                             Map<String,Object> map;
@@ -71,21 +73,9 @@ public class RegisterAdmin_Fragment_FireStoreModel {
 
                                     nameadmincheck= remap.getValue().toString();
                                 }
-
                             }
 
-
                         }
-
-//can do after all finish, keeping inline.
-
-//                        if(nameadmincheck!=null){
-//                            //means document exist, and name exist, can return and process to
-//                            //click button, or next.
-//                        }else {
-//
-//                            //return with error, got number, no admin name, check admin name again
-//                        }
 
                     }
 
@@ -94,30 +84,71 @@ public class RegisterAdmin_Fragment_FireStoreModel {
 
 
             }
+
+
         }).addOnCanceledListener(new OnCanceledListener() {
             @Override
             public void onCanceled() {
+
+           // noticeString="failed";
 
 
 
             }
         });
 
+        //this will only run once.
         if(nameadmincheck!=null&&nameadmincheck.equals(name)){
 
             return true;
+        }else {
+
+
+            return false;
+
+        }
+    }
+
+    public boolean getFromFireStore_Simulation(){
+
+        final Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+
+
+                setResponse(true);
+            }
+        },5000);
+
+
+
+        return returnLast;
+    }
+
+    private void setResponse(boolean returndata) {
+
+        if(returndata==true) {
+            returnLast = returndata;
+
+            setChanged();
+            notifyObservers();
+        }else {
+            return;
         }
 
-        return false;
+
     }
 
 
-    //
-//    public RegisterAdmin_Fragment_FireStoreModel(String name, String phone) {
-//
-//        this.name=name;
-//        this.phone = phone;
-//    }
+
+    public boolean getReturnLast(){
+        return returnLast;
+    }
+
+
 
 
 }

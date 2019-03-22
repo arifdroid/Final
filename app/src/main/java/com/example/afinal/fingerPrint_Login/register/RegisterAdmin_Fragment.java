@@ -21,8 +21,11 @@ import java.util.Observer;
 public class RegisterAdmin_Fragment extends Fragment implements OurView, Observer {
 
     private EditText editTextAdminName, editTextAdminPhone;
-    private Button button;
+    private Button button2;
     private TextView textView;
+
+    private String adminNameHere;
+    private String adminPhoneHere;
 
     private RegisterAdmin_Fragment_Presenter presenter;
 
@@ -34,26 +37,44 @@ public class RegisterAdmin_Fragment extends Fragment implements OurView, Observe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
       //  return super.onCreateView(inflater, container, savedInstanceState);
 
-        editTextAdminName = container.findViewById(R.id.registerAdmin_editText_adminNameID);
-        editTextAdminPhone = container.findViewById(R.id.registerAdmin_editText_adminPhoneID);
-        button = container.findViewById(R.id.registerAdmin_button_AdminFragment_ID);
-        textView = container.findViewById(R.id.registerAdmin_textView_AdminFragment_ID);
+        View rootView = inflater.inflate(R.layout.register_admin_fragment,container,false);
+
+
+        editTextAdminName = rootView.findViewById(R.id.registerAdmin_editText_adminNameID);
+        editTextAdminPhone = rootView.findViewById(R.id.registerAdmin_editText_adminPhoneID);
+        button2 = rootView.findViewById(R.id.registerAdmin_button_AdminFragment_ID);
+        textView = rootView.findViewById(R.id.registerAdmin_textView_AdminFragment_ID);
 
         success=false;
         notnull=false;
 
-        presenter = new RegisterAdmin_Fragment_Presenter(this);
+        presenter =  RegisterAdmin_Fragment_Presenter.getINSTANCE();
         presenter.addObserver(this);
 
-        String adminName = editTextAdminName.getText().toString();
-        String adminPhone = editTextAdminPhone.getText().toString();
 
-        checkAdminExist(adminName,adminPhone);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String adminName = editTextAdminName.getText().toString();
+                String adminPhone = editTextAdminPhone.getText().toString();
+
+                checkAdminExist(adminName,adminPhone);
 
 
+            }
+        });
 
-        return inflater.inflate(R.layout.register_admin_fragment,container,false);
 
+        return rootView;
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        presenter.deleteObserver(this);
     }
 
     private boolean checkInputExist(String adminName, String adminPhone) {
@@ -76,13 +97,22 @@ public class RegisterAdmin_Fragment extends Fragment implements OurView, Observe
 
             //need another observer as well,
 
+            adminNameHere = adminName;
+            adminPhoneHere =adminPhone;
+
             success = presenter.checkAdminFromFirebase(adminName,adminPhone);
 
-            if(success){
+            if(success==true){
+
                 goNext();
+
+
             }else {
 
-                Toast.makeText(getContext(),"admin success", Toast.LENGTH_SHORT).show();
+                //if instance all work in flow.
+                //this will run first, until we fetch data,
+                //how to decide that there will never be an update in data.
+                Toast.makeText(getContext(),"admin fail", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -101,9 +131,11 @@ public class RegisterAdmin_Fragment extends Fragment implements OurView, Observe
 
         if(o instanceof RegisterAdmin_Fragment_Presenter){
 
-            Boolean check = ((RegisterAdmin_Fragment_Presenter)o).isCheck();
+            Boolean check = ((RegisterAdmin_Fragment_Presenter)o).getReturnFinal();
 
-            if(check){
+            if(check==true){
+
+                textView.setText("success simulation");
 
                 goNext();
             }
@@ -113,7 +145,15 @@ public class RegisterAdmin_Fragment extends Fragment implements OurView, Observe
 
     private void goNext() {
 
+       Register_Activity.globalAdminName =adminNameHere;
+
+       Register_Activity.globaladminPhone =adminPhoneHere;
+
+
+
+
         Toast.makeText(getContext(),"admin success", Toast.LENGTH_SHORT).show();
+
 
     }
 }
