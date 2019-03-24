@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".fingerPrint_Login.register.Register_Activity"
-            android:label="@string/title_activity_register_"></activity>
+        <activity android:name=".fingerPrint_Login.register.register_user_activity.RegUser_Activity"></activity>
+        <activity android:name=".fingerPrint_Login.register.register_with_activity.RegAdmin_Activity" />
+        <activity android:name=".fingerPrint_Login.test_mvp.Test_Activity" />
         <activity android:name=".fingerPrint_Login.FingerPrint_LogIn_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

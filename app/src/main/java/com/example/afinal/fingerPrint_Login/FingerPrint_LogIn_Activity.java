@@ -9,12 +9,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.afinal.R;
-import com.example.afinal.fingerPrint_Login.register.Register_Activity;
+import com.example.afinal.fingerPrint_Login.register.register_with_activity.RegAdmin_Activity;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Observer {
+    //https://blog.mindorks.com/essential-guide-for-designing-your-android-app-architecture-mvp-part-2-b2ac6f3f9637
+
+    //https://github.com/googlesamples/android-architecture
+
+    // https://riptutorial.com/android/example/29784/simple-login-example-in-mvp
 
     private TextView textViewMessage, textViewRegister;
     private Button buttonLogIn, buttonSelectAdmin;
@@ -61,7 +66,7 @@ public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Obs
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(FingerPrint_LogIn_Activity.this, Register_Activity.class);
+                Intent intent = new Intent(FingerPrint_LogIn_Activity.this, RegAdmin_Activity.class);
                 startActivity(intent);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();

@@ -3,31 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".fingerPrint_Login.register.register_user_activity.RegUser_Activity">
 
     <EditText
-        android:id="@+id/register_user_fragment_editTextNameid"
+        android:id="@+id/regUser_editText_NameID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+
+        android:textAlignment="center"
+        android:hint="name"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="name"
         android:inputType="textPersonName"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintVertical_bias="0.19" />
 
     <EditText
-        android:id="@+id/register_user_fragment_editTextPhoneID"
+        android:id="@+id/regUser_editText_PhoneID"
         android:layout_width="wrap_content"
         android:textAlignment="center"
-        android:hint="phone (+601.. )"
+        android:hint="phone(+601)"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -36,14 +38,14 @@
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_user_fragment_editTextNameid" />
+        app:layout_constraintTop_toBottomOf="@+id/regUser_editText_NameID" />
 
     <EditText
-        android:id="@+id/register_user_fragment_editTextCodeID"
+        android:id="@+id/regUser_editText_CodeID"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAlignment="center"
         android:hint="code"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -51,37 +53,10 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_user_fragment_editTextPhoneID" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <Button
-        android:id="@+id/register_user_fragment_buttonLogInID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="Log In"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/register_user_fragment_textViewID" />
-
-    <Button
-        android:id="@+id/register_user_fragment_buttonGetCodeID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:text="Get Code"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/register_user_fragment_textViewID" />
+        app:layout_constraintTop_toBottomOf="@+id/regUser_editText_PhoneID" />
 
     <TextView
-        android:id="@+id/register_user_fragment_textViewID"
+        android:id="@+id/regUser_textViewID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -90,5 +65,34 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_user_fragment_editTextCodeID" />
+        app:layout_constraintTop_toBottomOf="@+id/regUser_editText_CodeID" />
+
+    <Button
+        android:id="@+id/regUser_Button_LogInID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onClick"
+        android:text="Log In"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/regUser_textViewID" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/regUser_Button_GetCodeID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:onClick="onClick"
+        android:text="Get Code"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/regUser_textViewID" />
 </android.support.constraint.ConstraintLayout>
