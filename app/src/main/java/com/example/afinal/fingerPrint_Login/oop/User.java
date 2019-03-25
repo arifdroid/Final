@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String phone;
     private String image_url;
-    private String ref_score_card;
+   // private String ref_score_card;
     private String uid;
     private float rating;
 
@@ -13,11 +13,10 @@ public class User {
 
     }
 
-    public User(String name, String phone, String image_url, String ref_score_card, String uid, float rating) {
+    public User(String name, String phone, String image_url, String uid, float rating) {
         this.name = name;
         this.phone = phone;
         this.image_url = image_url;
-        this.ref_score_card = ref_score_card;
         this.uid = uid;
         this.rating = rating;
     }
@@ -45,14 +44,14 @@ public class User {
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
-
-    public String getRef_score_card() {
-        return ref_score_card;
-    }
-
-    public void setRef_score_card(String ref_score_card) {
-        this.ref_score_card = ref_score_card;
-    }
+//
+//    public String getRef_score_card() {
+//        return ref_score_card;
+//    }
+//
+//    public void setRef_score_card(String ref_score_card) {
+//        this.ref_score_card = ref_score_card;
+//    }
 
     public String getUid() {
         return uid;

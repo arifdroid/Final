@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    >
+
+
+    <FrameLayout
+        android:id="@+id/frame_FragmentiD"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:background="@android:color/holo_red_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"></FrameLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fragment_FloatButton_backiD"
+        app:backgroundTint="@android:color/holo_red_light"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.987" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fragment_FloatButton_admin1id"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintEnd_toEndOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintStart_toStartOf="@+id/select_fragment_FloatButton_backiD" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fragment_FloatButton_admin2"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@+id/select_fragment_FloatButton_admin1id"
+        app:layout_constraintEnd_toEndOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintStart_toStartOf="@+id/select_fragment_FloatButton_backiD" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fragment_FloatButton_RegisterUseriD"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@+id/select_fragment_FloatButton_admin2"
+        app:layout_constraintEnd_toEndOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintStart_toStartOf="@+id/select_fragment_FloatButton_backiD" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fragment_FloatButton_RegisterAdminiD"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@+id/select_fragment_FloatButton_RegisterUseriD"
+        app:layout_constraintEnd_toEndOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintStart_toStartOf="@+id/select_fragment_FloatButton_backiD" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fragment_FloatButton_addNoteMCiD"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@+id/select_fragment_FloatButton_RegisterAdminiD"
+        app:layout_constraintEnd_toEndOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintStart_toStartOf="@+id/select_fragment_FloatButton_backiD" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton7"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="21dp"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:layout_constraintBottom_toTopOf="@+id/frame_FragmentiD"
+        app:layout_constraintEnd_toEndOf="@+id/select_fragment_FloatButton_backiD"
+        app:layout_constraintStart_toStartOf="@+id/select_fragment_FloatButton_backiD" />
+
+
+</android.support.constraint.ConstraintLayout>
