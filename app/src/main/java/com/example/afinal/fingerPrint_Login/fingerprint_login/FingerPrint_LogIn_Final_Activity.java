@@ -29,7 +29,10 @@ public class FingerPrint_LogIn_Final_Activity extends AppCompatActivity implemen
         setContentView(R.layout.activity_finger_print__log_in__final_);
 
         floatButtonGetAction = findViewById(R.id.logn_Final_floatingActionButtonID);
-        textView = findViewById(R.id.logIn_activity_textViewRegisteriD);
+
+        floatButtonGetAction.setOnClickListener(this);
+
+        textView = findViewById(R.id.login_final_textViewHereID);
         imageView = findViewById(R.id.login_final_imageViewID);
         textView.setText("click button below to log in");
         backColor = findViewById(R.id.backLayoutColourID);
@@ -43,7 +46,7 @@ public class FingerPrint_LogIn_Final_Activity extends AppCompatActivity implemen
     @Override
     public void onClick(View v) {
 
-        backColor.setAlpha(0.2f);
+        backColor.setAlpha(0.05f);
 
         getSupportFragmentManager().beginTransaction()
         .replace(R.id.frameID,fragment)
