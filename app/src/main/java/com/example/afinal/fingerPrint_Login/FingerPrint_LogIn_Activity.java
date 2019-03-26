@@ -64,6 +64,8 @@ public class FingerPrint_LogIn_Activity extends AppCompatActivity implements Obs
                 //better sent interface like view, lifecycle dependencies issue
                 textViewMessage.setText("checking fingerprint");
 
+                presenter.checkSupportedDevice();
+
                 Log.i("checkk flow: ","1");
 
 

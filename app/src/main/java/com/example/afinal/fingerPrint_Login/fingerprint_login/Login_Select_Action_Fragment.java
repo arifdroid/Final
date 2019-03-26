@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.afinal.R;
+import com.example.afinal.fingerPrint_Login.register.register_as_admin.register_as_admin_regAdmin.RegAdmin_AsAdmin_Activity;
 import com.example.afinal.fingerPrint_Login.register.register_with_activity.RegAdmin_Activity;
 
 public class Login_Select_Action_Fragment extends Fragment implements View.OnClickListener{
@@ -23,6 +24,8 @@ public class Login_Select_Action_Fragment extends Fragment implements View.OnCli
                                 floatButton_Note_MC, floatButton_Back;
 
     private TextView textViewAdmin_1, textViewAdmin_2, textView_RegUser, textView_RegAdmin, textView_Note;
+
+    private FingerPrintFinal_Presenter presenter;
 
 
     @Nullable
@@ -47,6 +50,7 @@ public class Login_Select_Action_Fragment extends Fragment implements View.OnCli
         textView_RegAdmin = rootView.findViewById(R.id.select_fragment_textView_regAdmin_1id);
 
         //we pull from shared preferences here once
+        //then set text
 
         textView_RegAdmin.setText("Register As Admin");
         textView_RegUser.setText("Register As User");
@@ -93,11 +97,16 @@ public class Login_Select_Action_Fragment extends Fragment implements View.OnCli
 
             case R.id.select_fragment_FloatButton_admin1id:
 
+                //to disable register user, save data to shared preferences,
+                //then pull data, if data exist, dont allow for register, show toast
 
+                ((FingerPrint_LogIn_Final_Activity)getActivity()).nameUser = "arif";
+                getFragmentManager().popBackStack();
 
                 break;
             case R.id.select_fragment_FloatButton_admin2:
-
+                ((FingerPrint_LogIn_Final_Activity)getActivity()).nameUser = "ryn";
+                getFragmentManager().popBackStack();
 
 
 
@@ -116,7 +125,9 @@ public class Login_Select_Action_Fragment extends Fragment implements View.OnCli
 
             case R.id.select_fragment_FloatButton_RegisterAdminiD:
 
-
+            Intent intent2 = new Intent(getActivity(), RegAdmin_AsAdmin_Activity.class);
+            startActivity(intent2);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
                 break;
@@ -135,6 +146,8 @@ public class Login_Select_Action_Fragment extends Fragment implements View.OnCli
 
 
     }
+
+
 
 
 }

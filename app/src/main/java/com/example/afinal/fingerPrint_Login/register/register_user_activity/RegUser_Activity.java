@@ -44,6 +44,11 @@ public class RegUser_Activity extends AppCompatActivity implements View.OnClickL
     private boolean inputValid;
     private boolean inputValid_2;
 
+    //if register as admin,
+    //just declare, admin name, and admin phone,
+    //no need to check employee, instead, check if admin is existed.
+    //then jump another activity to set the ssid , bssid etc.
+
     private String codeFromFirebase;
 
     private String adminName;

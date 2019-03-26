@@ -29,11 +29,11 @@ public class Presenter_FingerPrint extends Observable {
         Log.i("checkk flow: ","5");
 
         this.mContext = context;
-        checkSupportedDevice();
+       // checkSupportedDevice();
 
     }
 
-    private void checkSupportedDevice() {
+    public void checkSupportedDevice() {
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             //run
