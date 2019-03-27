@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,13 +16,25 @@ import com.example.afinal.R;
 
 import java.util.ArrayList;
 
-class RecyclerView_Admin_Profile_Adapter extends RecyclerView.Adapter<RecyclerView_Admin_Profile_Adapter.InsideHolder> implements View.OnClickListener{
+class RecyclerView_Admin_Profile_Adapter extends RecyclerView.Adapter<RecyclerView_Admin_Profile_Adapter.InsideHolder> {
 
     private Context mContext;
 
     private ArrayList<AdminDetail> adminDetails;
 
-     int j=0;
+
+    //setup return list, and interface to pass back data.
+    private ArrayList<AdminDetail> returnAdminDetails;
+
+    int j=0;
+
+    private PassResult_CheckBox_Interface passResult_checkBox_interface;
+
+    public void setPassResult_checkBox_interface(PassResult_CheckBox_Interface passResult_checkBox_interface){
+            this.passResult_checkBox_interface=passResult_checkBox_interface;
+    }
+
+    public static boolean sentCheck;
 
 
 
@@ -30,6 +43,7 @@ class RecyclerView_Admin_Profile_Adapter extends RecyclerView.Adapter<RecyclerVi
 
         this.mContext = context;
         this.adminDetails = adminDetails;
+        this.returnAdminDetails = new ArrayList<>();
 
     }
 
@@ -50,37 +64,45 @@ class RecyclerView_Admin_Profile_Adapter extends RecyclerView.Adapter<RecyclerVi
 
         String ss = adminDetails.get(i).getImageViewPath();
 
+        final AdminDetail adminDetail = adminDetails.get(i);
+
        j =i;
 
 
-        if(insideHolder.checkBox.isChecked()){
+        insideHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        }
-//        insideHolder.imageViewList.setImageResource(getItemId());
+                if(isChecked){
 
-//        final int j =i;
-//        insideHolder.checkBox.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-//            @Override
-//            public void onViewAttachedToWindow(View v) {
-//
-//
-//                boolean checkBoxCheck = ((CheckBox)v).isChecked();
-//
-//                if(checkBoxCheck){
-//                    Log.i("checkkLocation", "11 checkBox = " +adminDetails.get(j).isCheckBox());
-//
-//                    adminDetails.get(j).setCheckBox(true);
-//
-//                    Log.i("checkkLocation", "12 checkBox = " +adminDetails.get(j).isCheckBox());
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onViewDetachedFromWindow(View v) {
-//
-//            }
-//        });
+                    adminDetail.setCheckBox(true);
+
+
+                    returnAdminDetails = adminDetails;
+
+                    if(passResult_checkBox_interface!=null){
+
+                        passResult_checkBox_interface.passingArray(returnAdminDetails);
+                    }
+
+                }else {
+
+                    adminDetail.setCheckBox(false);
+
+                    returnAdminDetails = adminDetails;
+
+                    if(passResult_checkBox_interface!=null) {
+
+                        passResult_checkBox_interface.passingArray(returnAdminDetails);
+                    }
+
+                 }
+
+            }
+        });
+
+
+//       //problem is i always 1 for the problem.
 
 
 
@@ -100,12 +122,6 @@ class RecyclerView_Admin_Profile_Adapter extends RecyclerView.Adapter<RecyclerVi
         return adminDetails.size();
     }
 
-    @Override
-    public void onClick(View v) {
-
-
-
-    }
 
     public class InsideHolder extends RecyclerView.ViewHolder {
 
@@ -122,23 +138,12 @@ class RecyclerView_Admin_Profile_Adapter extends RecyclerView.Adapter<RecyclerVi
 
             checkBox = itemView.findViewById(R.id.admin_Profile_CardView_checkBox);
 
-            checkBox.setOnClickListener((View.OnClickListener) this);
-
-//            checkBox.setOnClickListener(new View.OnClickListener() {
+//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //                @Override
-//                public void onClick(View v) {
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    adminDetails.get(j).setCheckBox(isChecked);
 //
-//                    boolean checkBoxCheck = ((CheckBox)v).isChecked();
-//
-//                if(checkBoxCheck){
-//                    Log.i("checkkLocation", "11 checkBox = " +adminDetails.get(j).isCheckBox());
-//
-//                    adminDetails.get(j).setCheckBox(true);
-//
-//                    Log.i("checkkLocation", "12 checkBox = " +adminDetails.get(j).isCheckBox());
-//
-//                }
-//
+//                    Log.i("checkkLocation", "checkbox adapter " + isChecked + " j is: "+ j + " item is:"+adminDetails.get(j).getTextShow());
 //
 //                }
 //            });

@@ -25,6 +25,8 @@ public class RegAdmin_AsAdmin_Activity extends AppCompatActivity {
     private TextView textViewMessage;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

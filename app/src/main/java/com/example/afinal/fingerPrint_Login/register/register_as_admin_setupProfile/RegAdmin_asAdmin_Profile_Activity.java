@@ -1,16 +1,21 @@
 package com.example.afinal.fingerPrint_Login.register.register_as_admin_setupProfile;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +55,8 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
 
     private ArrayList<AdminDetail> adminDetailsList;
 
+    private ArrayList<AdminDetail> returnAdminDetailList;
+
     WifiManager wifiManager;
 
     WifiInfo wifiInfo;
@@ -60,6 +67,11 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
 
     private final int REQUEST_LOCATION_PERMISSION = 1;
 
+    //static final for image
+
+    private static final int READ_REQUEST_CODE = 42;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +81,29 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiInfo = wifiManager.getConnectionInfo();
 
+        returnAdminDetailList = new ArrayList<>();
+
         floatingActionButton = findViewById(R.id.admin_Profile_fButtoniD);
         circleImageView = findViewById(R.id.admin_Profile_circleImageViewID);
         textViewName = findViewById(R.id.admin_Profile_textViewNameiD);
         textViewPhone = findViewById(R.id.admin_Profile_textViewPhoneiD);
+
+        //setting up image
+
+
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+
+                startActivityForResult(intent,READ_REQUEST_CODE);
+
+            }
+        });
+
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -91,28 +122,41 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            int count =1;
-            for(AdminDetail adminDetail:adminDetailsList){
+                int count = 0, count2 = 1;
+                for (AdminDetail adminDetail : returnAdminDetailList) {
 
-                Log.i("checkkLocation", "13 checkBox = " +adminDetail.isCheckBox());
+                    Log.i("checkkLocation", "13 checkBox = " + adminDetail.isCheckBox());
 
-                boolean checkBoxHere = adminDetail.isCheckBox();
+                    boolean checkBoxHere = adminDetail.isCheckBox();
 
-                Log.i("checkkLocation", "14 checkBox = " +adminDetail.isCheckBox());
+                    Log.i("checkkLocation", "14 checkBox = " + adminDetail.isCheckBox());
 
-                if(checkBoxHere){
-                    count++;
+                    if (checkBoxHere) {
+                        count++;
+                    }
+
                 }
 
-            }
 
-            if(count==adminDetailsList.size()){
+                //problem is count always 1, inevitable, keep
 
-                Toast.makeText(RegAdmin_asAdmin_Profile_Activity.this,"all "+ count+ " boxes checked", Toast.LENGTH_SHORT).show();;
-            }else {
 
-                Toast.makeText(RegAdmin_asAdmin_Profile_Activity.this,"only "+ count+ " boxes checked", Toast.LENGTH_SHORT).show();;
-            }
+                //if (count == 1 && RecyclerView_Admin_Profile_Adapter.sentCheck == false) {
+                if (count == 0) {
+
+                } else {
+
+                    if ((count) == adminDetailsList.size()) {
+
+                        Toast.makeText(RegAdmin_asAdmin_Profile_Activity.this, "all " + count + " boxes checked", Toast.LENGTH_SHORT).show();
+                        ;
+                    } else {
+
+                        Toast.makeText(RegAdmin_asAdmin_Profile_Activity.this, "only " + count + " boxes checked , size list "+ adminDetailsList.size() , Toast.LENGTH_SHORT).show();
+                        ;
+                    }
+
+                }
 
             }
         });
@@ -126,6 +170,34 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
         //initRecycler();
     }
 
+    //for image loader.
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+
+            Uri uri = null;
+
+            if(data!=null){
+
+                uri = data.getData();
+
+                showImage(uri);
+
+            }
+        }
+
+    }
+
+    private void showImage(Uri uri) {
+
+        circleImageView.setImageURI(uri);
+
+        Toast.makeText(RegAdmin_asAdmin_Profile_Activity.this,"image setup", Toast.LENGTH_SHORT).show();
+
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -173,6 +245,15 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
                         adminDetailsList.add(new AdminDetail(streetName, "drawable/ic_location_on_black_24dp"));
                         recyclerView_Admin_Profile_Adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(recyclerView_Admin_Profile_Adapter);
+                        recyclerView_Admin_Profile_Adapter.setPassResult_checkBox_interface(new PassResult_CheckBox_Interface() {
+                            @Override
+                            public void passingArray(ArrayList<AdminDetail> adminDetails) {
+                                //returned list.
+
+                                returnAdminDetailList = adminDetails;
+                            }
+                        });
+
 
                         if(streetName!=null|| streetName!=""){
 
@@ -202,44 +283,6 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
 
                         }
                     });
-
-//            mLocationListener = new LocationListener() {
-//                @Override
-//                public void onLocationChanged(Location location) {
-//
-//                    Double lat = location.getLatitude();
-//                    Double longitude = location.getLongitude();
-//
-//                    Log.i("checkkLocation", "3");
-//
-//                    Geocoder geocoder = new Geocoder(RegAdmin_asAdmin_Profile_Activity.this, Locale.getDefault());
-//
-//                    try {
-//
-//                        Log.i("checkkLocation", "4");
-//
-//                        streetName = geocoder.getFromLocation(lat, longitude, 1).get(0).getSubLocality();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                }
-//
-//                @Override
-//                public void onProviderEnabled(String provider) {
-//
-//                }
-//
-//                @Override
-//                public void onProviderDisabled(String provider) {
-//
-//                }
-//            };
 
 
 
@@ -279,6 +322,15 @@ public class RegAdmin_asAdmin_Profile_Activity extends AppCompatActivity {
         Log.i("checkkLocation", "8");
 
         recyclerView.setAdapter(recyclerView_Admin_Profile_Adapter);
+        recyclerView_Admin_Profile_Adapter.setPassResult_checkBox_interface(new PassResult_CheckBox_Interface() {
+            @Override
+            public void passingArray(ArrayList<AdminDetail> adminDetails) {
+                //returned list.
+
+                returnAdminDetailList = adminDetails;
+
+            }
+        });
 
     }
 
